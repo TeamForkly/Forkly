@@ -44,17 +44,23 @@ class Home extends React.Component {
   render() {
   	return (
   	  <div>
-        <h3>Welcome! Which recipes would you like to find?</h3>
-  	  	<input type="text" 
-               onKeyUp={ (event) => {
-                          this.setSearchTerm(event.target.value)
-                        }}
-        />
-        <button onClick={(event) => {
-                          this.searchRecipes(this.state.searchTerm)
-                        }}
-        >Search</button>
-        <div>
+        <div className="search">
+          <img className="searchImage" src="assets/images/steak.jpg" alt="steak"/>
+          <span className="searchText">  
+            <h3>Yummly</h3>
+            <input type="text" 
+                   onKeyUp={ (event) => {
+                              this.setSearchTerm(event.target.value)
+                            }}
+            />
+            <button onClick={(event) => {
+                              this.searchRecipes(this.state.searchTerm)
+                            }}
+            >Search Recipes</button>
+          </span>
+        </div>
+        
+        <div className="results">
           <ul>
             {this.state.recipes.map((recipe, index) => <RecipeSearch recipe={recipe} key={index}/>)}
           </ul>

@@ -1,3 +1,4 @@
+var express = require('express');
 var request = require('request');
 var mongoose = require('mongoose');
 var Promise = require("bluebird");

@@ -14,7 +14,8 @@ class App extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      username: 'Forker Of Forks'
+      username: 'Forker Of Forks',
+      currentRecipe: []
     };
 
     this.getUsername();
@@ -43,19 +44,20 @@ class App extends React.Component {
     return (
       <Router>
         <div>
-          <Login />
-          <div className="nav"> 
-            <section className="group">
+          <div className="group"> 
+            <section className="floatLeft">
               <h1 className="title logo">FORKLY</h1>
               <h3 className="title username">Welcome, {this.state.username}</h3>
+            </section>
+            <section className="floatRight">
               <nav>
                 <div className="icon logout">
                   <img className="navButton" src="assets/images/logout.png" alt="Logout"/>
-                  <span>Logout</span>
+                  <span>Logout  </span>
                 </div>
                 <div className="icon addRecipe">
                   <img className="navButton" src="assets/images/addRecipe.png" alt="Add Recipe"/>
-                  <span><Link to="/addrecipe">Add Recipe</Link></span>
+                  <span><Link to="/addrecipe">Create Recipe</Link></span>
                 </div>
                 <div className="icon myForks">
                   <img className="navButton" src="assets/images/fork.png" alt="My Forks"/>
@@ -68,8 +70,6 @@ class App extends React.Component {
               </nav>
             </section>
           </div>
-
-          <hr/>
 
           <Route exact path="/" component={Home}/>
           <Route path="/addrecipe" component={AddRecipe}/>

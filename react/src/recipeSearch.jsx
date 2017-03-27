@@ -37,9 +37,17 @@ class RecipeSearch extends React.Component {
 
   render() {
   	return (
-  	  <li>
+  	  <li className='recipe'>
         <div className='recipeName'>
-          <h3><a href='#'>{this.props.recipe.name}</a></h3>
+          <h3><em>{this.props.recipe.name}</em></h3>
+        </div>
+        <div className='ingredients'>
+          <h4 className='title'>Ingredients</h4>
+          <p>{this.props.recipe.ingredients}</p>
+        </div>
+        <div className='directions'>
+          <h4 className='title'>Directions</h4>
+          <p>{this.props.recipe.directions}</p>
         </div>
   	  </li>
   	)

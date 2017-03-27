@@ -25,6 +25,7 @@ class AddRecipe extends React.Component {
       success: (result) => {
         //implement a redirect to the users recipe page
         console.log('POST successful');
+        // this.transitionTo('/');
       }
     });
     event.preventDefault();
@@ -62,13 +63,22 @@ class AddRecipe extends React.Component {
 
   render () {
     return (
-      <div>
+      <div className="createRecipe">
         <header>
-          <h1>Add Recipe</h1>
+          <h1 className="recipeHeader">Create a Recipe</h1>
         </header>
+        <br />
+        <img className="recipeImage" src="assets/images/sushi.jpg" alt="sushi"/>
+        <br />
         <form onSubmit={this.handleSubmit}>
-          Name: <input type="text" name="name" onChange={this.handleInputChange}/>
-          <table>
+
+          <h3 className="recipeName">Recipe Name:</h3> 
+          <input type="text" name="name" onChange={this.handleInputChange}/>
+          <br />
+          <br />
+        
+          <h3 className="title">Ingredients:</h3>
+          <table className="ingredients">
             <thead>
               <tr>
                 <td>Quantity</td>
@@ -80,8 +90,12 @@ class AddRecipe extends React.Component {
                return <AddRecipeIngredients key={index} index={index} quantity={val.quantity} units={val.units} ingredient={val.ingredient} showButton={val.showButton} addRow={this.addRow} handleIngredientsChange={this.handleIngredientsChange}/>;
              }, this)}
           </table>
-          Directions: <br />
+          <br />
+        
+          <h3 className="title"> Directions: </h3>
           <textarea name="directions" onChange={this.handleInputChange}></textarea>
+          <br />
+
           <div>
             <input type="submit" name="addRecipeSave" value="Save" />
             <input type="button" name="addRecipeCancel" value="Cancel" />
