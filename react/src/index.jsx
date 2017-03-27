@@ -5,6 +5,7 @@ import Home from './home.jsx'
 import AddRecipe from './addRecipe.jsx';
 import Login from './login.jsx';
 import ViewFork from './viewFork.js';
+import ViewRecipes from './viewRecipes.jsx';
 import {
   BrowserRouter as Router,
   Route,
@@ -49,6 +50,7 @@ class App extends React.Component {
             <section className="floatLeft">
               <img className="logo" src="assets/images/forkly.png" alt="FORKLY"/>
               <h3 className="title username">Welcome, {this.state.username}</h3>
+              <Login />
             </section>
             <section className="floatRight">
               <nav>
@@ -61,8 +63,8 @@ class App extends React.Component {
                   <span><Link to="/addrecipe">Create Recipe</Link></span>
                 </div>
                 <div className="icon myForks">
-                  <img className="navButton" src="assets/images/fork.png" alt="My Forks"/>
-                  <span>My<br/>Forks</span>
+                  <img className="navButton" src="assets/images/fork.png" alt="My Recipes"/>
+                  <span><Link to="/myrecipes">My Recipes</Link></span>
                 </div>
                 <div className="icon home">
                   <img className="navButton" src="assets/images/home.png" alt="Home"/>
@@ -74,6 +76,7 @@ class App extends React.Component {
 
           <Route exact path="/" component={Home}/>
           <Route path="/addrecipe" component={AddRecipe}/>
+          <Route path="/myrecipes" component={ViewRecipes}/>
         </div>
       </Router>
     )
