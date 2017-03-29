@@ -1,11 +1,12 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import $ from 'jquery';
-import Home from './home.jsx'
-import AddRecipe from './addRecipe.jsx';
-import Login from './login.jsx';
-import ViewFork from './viewFork.js';
-import ViewRecipes from './viewRecipes.jsx';
+import React from 'react'
+import $ from 'jquery'
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import getMuiTheme from 'material-ui/styles/getMuiTheme'
+import Home from './components/Home'
+import AddRecipe from './components/AddRecipe'
+import Login from './components/Login'
+import ViewFork from './components/ViewFork'
+import ViewRecipes from './components/ViewRecipes'
 import {
   BrowserRouter as Router,
   Route,
@@ -13,47 +14,47 @@ import {
 } from 'react-router-dom'
 
 class App extends React.Component {
-  constructor(props){
-    super(props);
+  constructor (props) {
+    super(props)
     this.state = {
       username: null,
       currentRecipe: []
-    };
-    this.logout = this.logout.bind(this);
+    }
+    this.logout = this.logout.bind(this)
   }
 
-  componentDidMount(){
-    this.getUsername();
+  componentDidMount () {
+    this.getUsername()
   }
 
   getUsername () {
-    var context = this;
+    var context = this
 
     $.ajax({
       url: '/username',
       type: 'GET',
       contentType: 'application/json',
-      success: function(data) {
-        context.setState({username: data});
+      success: function (data) {
+        context.setState({username: data})
       },
-      error: function(err) {
-        console.log('ajax request to search username failed');
+      error: function (err) {
+        throw err
       }
-    });
+    })
   }
 
-  logout() {
-    var Appcontext = this;
+  logout () {
+    var Appcontext = this
 
     $.ajax({
-      url:'/logout',
+      url: '/logout',
       type: 'GET',
       contentType: 'application/json',
-      success: function(data) {
-        Appcontext.getUsername();
+      success: function (data) {
+        Appcontext.getUsername()
       },
-      error: function(err) {
-        // console.log('unsuccessful logout');
+      error: function (err) {
+        throw err
       }
     })
   }
@@ -62,44 +63,50 @@ class App extends React.Component {
     return (
       <Router>
         <div>
-          <div className="group">
-            <section className="floatLeft">
-              <img className="logo" src="assets/images/forkly.png" alt="FORKLY"/>
-              <h3 className="title username"><Login username={this.state.username}/></h3>
+          <div className='group'>
+            <section className='floatLeft'> {/* top left forkly / login */}
+              <img className='logo' src='assets/images/forkly.png' alt='FORKLY' />
+              <h3 className='title username'><Login username={this.state.username} /></h3> {/* fb login */}
             </section>
-            <section className="floatRight">
+            <section className='floatRight'>
               <nav>
-                <div className="icon logout">
-                  <img className="navButton" src="assets/images/logout.png" alt="Logout"/>
-                  <span><Link to="/" onClick={this.logout}><br />Logout</Link></span>
+                <div className='icon logout'>
+                  <img className='navButton' src='assets/images/logout.png' alt='Logout' />
+                  <span><Link to='/' onClick={this.logout}><br />Logout</Link></span>
                 </div>
-                <div className="icon addRecipe">
-                  <img className="navButton" src="assets/images/addRecipe.png" alt="Add Recipe"/>
-                  <span><Link to="/addrecipe">Create Recipe</Link></span>
+                <div className='icon addRecipe'>
+                  <img className='navButton' src='assets/images/addRecipe.png' alt='Add Recipe' />
+                  <span><Link to='/addrecipe'>Create Recipe</Link></span>
                 </div>
-                <div className="icon myForks">
-                  <img className="navButton" src="assets/images/fork.png" alt="My Recipes"/>
-                  <span><Link to="/myrecipes">My Recipes</Link></span>
+                <div className='icon myForks'>
+                  <img className='navButton' src='assets/images/fork.png' alt='My Recipes' />
+                  <span><Link to='/myrecipes'>My Recipes</Link></span>
                 </div>
-                <div className="icon home">
-                  <img className="navButton" src="assets/images/home.png" alt="Home"/>
-                  <span><Link to="/"><br />Home</Link></span>
+                <div className='icon home'>
+                  <img className='navButton' src='assets/images/home.png' alt='Home' />
+                  <span><Link to='/'><br />Home</Link></span>
                 </div>
               </nav>
             </section>
           </div>
 
-          <Route exact path="/" component={Home}/>
-          <Route path="/addrecipe" component={AddRecipe}/>
-          <Route path="/myrecipes" component={ViewRecipes}/>
-          <Route path="/recipe" component={ViewFork}/>
-        
+          <Route exact path='/' component={Home} />
+          {/* landing. if logged in, take straight to userpage, else, to homepage
+        log in option / page / modal
+        recipe search page */}
+          <Route path='/signup' component={SignUpPage} />
+          <Route path='/main' component={MainPageNonUser} />
+
+          <Route path='/addrecipe' component={AddRecipe} />
+          <Route path='/myrecipes' component={ViewRecipes} />
+          <Route path='/recipe' component={ViewFork} />
+
           <br />
           <br />
           <br />
           <footer>
             <br />
-            <small>&copy; <a href="https://github.com/TeamForkly/Forkly">TeamForkly</a></small>
+            <small>&copy; <a href='https://github.com/TeamForkly/Forkly'>TeamForkly</a></small>
           </footer>
         </div>
       </Router>
@@ -107,7 +114,7 @@ class App extends React.Component {
   }
 }
 
-ReactDOM.render(<App />, document.getElementById('app'));
+export default App
 
 // To start, run from terminal the following...
 // npm run react-dev
@@ -128,8 +135,8 @@ ReactDOM.render(<App />, document.getElementById('app'));
 // **************,,********,*//*#(#&*#%%&&&@@&@&&&@@@@@@&@@@@&&&&&&&&&&&&&&&&&&&&&&%#&%&@&@&&&%(##*,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 // ,,*********************/#((/%%#%%/(#&&&@&@&&@@&&@@@&@@@@@@@&&&&&&&&&&&&&&&&&&&@&&&&&@&&%&&%&@&&@&&&(&%(,,,,,,,,,,,*******,,,,,,,,,,,,,,,,
 // **********************/#(%#(%#%#((%&&&&@@@&@@&&&&@&@@@&@@@@&@&&&&&&&&&@@&&&&&&&@@@@&@&&&&&&&&@@&@&%&%&%%*,,,,,,,,*,,,,,,,,,,,,,,,,,,,,,,,
-// *********************(#(%%(%#%%#%#%&%&&&@&@@&@@&&&&&@@&@&&&&&&&&&&&&&@@&&@@&&&&@@@&&&&@@&&@&&&&@@@&&&&%%&%(,,,,,,,,,,,,,,,,,,,,....        
-// ******,,,,,*********/#(#&%##&%(%%%%&%#%&&&@&&@&&&&&&&&&&&&&&&&&&&&&&@&&@@@@@@@@@@@&&@&&@@@&@@@@@@@@&&@&%%/.                              
+// *********************(#(%%(%#%%#%#%&%&&&@&@@&@@&&&&&@@&@&&&&&&&&&&&&&@@&&@@&&&&@@@&&&&@@&&@&&&&@@@&&&&%%&%(,,,,,,,,,,,,,,,,,,,,....
+// ******,,,,,*********/#(#&%##&%(%%%%&%#%&&&@&&@&&&&&&&&&&&&&&&&&&&&&&@&&@@@@@@@@@@@&&@&&@@@&@@@@@@@@&&@&%%/.
 // ****,,,,,,,,********((###(%%%##%%%%&%%&&@&&&&&&%&&@&&&%&&&&%&&%&&&&&&&&@&@@@@@@@@&@&@&&@@@@@@@@@@@@@&@@%&&%(.                 ....,,,,,,,,,
 // ******,,,,,,*******/%##%%#%####%##%((%&&&&&&&&&&&&&&%%%&%%%%&%&&&&&&&&&@@&&&@&@@@@@@@@&@@@@@@@@@@@@@@&@&%%(,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 // ********,,,,*******/%((%#%%(#%#%%%(#(%&&&&&&&&&&&&&%%&&%##%%%&&&&&&&&@&&&&&&&&&@@@&@@@@@@@@@@@@@@@@@@&&&&%%%#,,,,,,,,,,,,,,,,,,,,,,,,,,,,*,
@@ -140,19 +147,19 @@ ReactDOM.render(<App />, document.getElementById('app'));
 // ..................../#%%#((#(#(##((#%##%##(#((##########%#%%%%%&&&&&&&&&&&&@&&&&&&&&&&&&&&&&&@@@&%#####%%%##(/,,*************************
 // ,,,,,,,,,,,,,,,,,,,,,###(((%/((#%(#%%%##(%%#######((#(###%#(#(#%&&&&&&&&&&&&&&&&&&&&&&&%&&&&&&&((((#####%(#%#/,,*************************
 // ,,,,,,,,,,,,,,,.....,%((/((#/(((((%##%#(%%%%##########%((((((#%&&%%%%%%######%%&&&%%%%&&%%%#((((((((((#####%#%#/,****************,,,,,,,,,,
-// ...................../(///##((/((####(#(#%####((####%#(((((##%%%%%##((((((#####(####%###((((///(((((((#####%%%#(,,,,,.............         
-// .....................(#/(/##/(/#(#(#(%##(%%#(((((##%#((((((%%%%#((//******//(((((((//////////////(((#######%%%%(                           
-// .....................(#///((((/(#(/###(##(((////(##((((((%&&%#((//*************/*//////////////((((((#######%%%/                           
-// ....................,*(((((((#(###(###((#(//////(((((//%&&(//*****************/////////////////(((########%%%(                           
-// ....................,,/((/(#((((((##((##(///////(#(((#&&%#////***********/******/*/////////////(((((((######%%%(                           
-// ......................(//((#(#((((#((/##(//////////#%#(//*//**********///*//**/*////////////////((((((#####(%%%/                           
-// ..                    /*(//((((((#(#(##((/////////////////***//******//*/////***//////////////////(((#####((#@%,                           
-//                       ./(*(#(((/((%(###(/////*///////////*//*//*/**/**/////////*///////////////////(((((((//#@%                            
-//                        ////(((((#%%###/////*******///////*//***/********//*//////////////*/////////((((#####(&@(                           
-//                       ,*///(%%(####%(///////*********/**********************/*//*/////*//*///////((((#%%%&%%   ##                          
-//                       *(/,*((##((#@////////*******************************//////////*////////((##%&&&&@@@@@@&&&.                         
-//                       *(/((/((/#(*#*(&%(//////**/**/////*****************/////*////////////(#%&&@@@@&&&@@@@@@@&%&%%                        
-//                       ,(*/*////(##(*,,(%##(//////(#%&%%%#####%%#######(##((((((/((((#%%&&%%@@@@@@@@@&&&@@@@@@@&%%%(                        
+// ...................../(///##((/((####(#(#%####((####%#(((((##%%%%%##((((((#####(####%###((((///(((((((#####%%%#(,,,,,.............
+// .....................(#/(/##/(/#(#(#(%##(%%#(((((##%#((((((%%%%#((//******//(((((((//////////////(((#######%%%%(
+// .....................(#///((((/(#(/###(##(((////(##((((((%&&%#((//*************/*//////////////((((((#######%%%/
+// ....................,*(((((((#(###(###((#(//////(((((//%&&(//*****************/////////////////(((########%%%(
+// ....................,,/((/(#((((((##((##(///////(#(((#&&%#////***********/******/*/////////////(((((((######%%%(
+// ......................(//((#(#((((#((/##(//////////#%#(//*//**********///*//**/*////////////////((((((#####(%%%/
+// ..                    /*(//((((((#(#(##((/////////////////***//******//*/////***//////////////////(((#####((#@%,
+//                       ./(*(#(((/((%(###(/////*///////////*//*//*/**/**/////////*///////////////////(((((((//#@%
+//                        ////(((((#%%###/////*******///////*//***/********//*//////////////*/////////((((#####(&@(
+//                       ,*///(%%(####%(///////*********/**********************/*//*/////*//*///////((((#%%%&%%   ##
+//                       *(/,*((##((#@////////*******************************//////////*////////((##%&&&&@@@@@@&&&.
+//                       *(/((/((/#(*#*(&%(//////**/**/////*****************/////*////////////(#%&&@@@@&&&@@@@@@@&%&%%
+//                       ,(*/*////(##(*,,(%##(//////(#%&%%%#####%%#######(##((((((/((((#%%&&%%@@@@@@@@@&&&@@@@@@@&%%%(
 //                        /*//////((###*..*#%###(/@@@@@&&&%%&&&@@@%#@@@@@&&@@@@@@(/////(%@@@@@@@@@@@@&&&@@@@@@@#                      .*((
 //                        //*///((//##%(/*.,,%#&@@@@@@&&%%%%%@@@@%%@@@@@@@@@@@@@&%###%%&&@%&@@@@@@@@@&&@@@@@@@@%##                    ./(##&
 //                        ,/*///((//(###//*,*,@&%&&@@@@@&&%%%%%%&@@@@@@@@@@%&@@@@@@#/*///#%@%@@@@@@@@@@&&@@@@@@@&((.              .*/**/(#%#%@

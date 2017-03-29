@@ -1,28 +1,28 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import $ from 'jquery';
+import React from 'react'
+import ReactDOM from 'react-dom'
+import $ from 'jquery'
 
 class Login extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor (props) {
+    super(props)
     this.state = {
       // username: '',
       // password: ''
-    };
-    this.handleInputChange = this.handleInputChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    }
+    this.handleInputChange = this.handleInputChange.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
   }
 
-  handleInputChange(event) {
+  handleInputChange (event) {
     this.setState({
       [event.target.name]: event.target.value
-    });
+    })
   }
 
-  handleSubmit(event) {
-    event.preventDefault();
+  handleSubmit (event) {
+    event.preventDefault()
 
-    console.log('username: ', this.state.username);
+    console.log('username: ', this.state.username)
 
     var user = {
       username: this.state.username,
@@ -34,23 +34,23 @@ class Login extends React.Component {
       type: 'POST',
       // contentType: 'application/JSON',
       data: JSON.stringify(user),
-      success: function(data) {
-        console.log('successful login post');
+      success: function (data) {
+        console.log('successful login post')
       },
-      error: function(err) {
-        console.log('login error');
+      error: function (err) {
+        console.log('login error')
       }
-    });
+    })
   }
 
-  componentDidMount() {
+  componentDidMount () {
     $.ajax({
       url: '/verifylogin',
       type: 'GET',
-      success: function(user) {
-        console.log('req.user object: ', user);
+      success: function (user) {
+        console.log('req.user object: ', user)
       },
-      error: function(err) {
+      error: function (err) {
       }
     })
   }
@@ -58,23 +58,23 @@ class Login extends React.Component {
   render () {
     if (this.props.username === null) {
       return (
-        <a className="loginFacebook" href="/auth/facebook">Login with Facebook</a>
-      )      
+        <a className='loginFacebook' href='/auth/facebook'>Login with Facebook</a>
+      )
     } else {
       return (
         <div>Welcome, {this.props.username}</div>
-      )      
+      )
     }
     // return (
     //   <div>
     //     <h1>Login</h1>
     //     <form onSubmit={this.handleSubmit}>
     //       <label>
-    //         Username: 
+    //         Username:
     //         <input name="username" type="text" value={this.state.username} onChange={this.handleInputChange}/>
     //       </label>
     //       <label>
-    //         Password: 
+    //         Password:
     //         <input name="password" type="password" value={this.state.password} onChange={this.handleInputChange}/>
     //       </label>
     //       <input type="submit"/>
