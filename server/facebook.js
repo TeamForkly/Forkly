@@ -45,11 +45,13 @@ passport.use(new FacebookStrategy({
    }
 ));
 
+// save user id into session (in memory)
 passport.serializeUser(function(user, done) {
   // console.log('serialize user: ', user);
   done(null, user.id);
 });
 
+// attach user object to request
 passport.deserializeUser(function(id, done) {
   // console.log('deserialize id: ', id);
   User.findById(id, function(err, user) {
