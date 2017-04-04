@@ -42,10 +42,14 @@ class RecipeSearch extends React.Component {
   }
 
   render() {
+    // console.log('Ingredients', this.props.recipe.ingredients);
   	return (
   	  <span className='results'>
         <div className='searchName'>
-          <h3 onClick={() => this.handleClick(this.props.recipe._id)}><em>{this.props.recipe.name}</em></h3>
+          <h3 onClick={() => this.handleClick(this.props.recipe._id)}><em>{this.props.recipe.label}</em></h3>
+        </div>
+        <div>
+          <img src={this.props.recipe.image} />>
         </div>
         <div className='ingredients'>
           <h4 className='searchIngredients'>Ingredients</h4>

@@ -11,7 +11,7 @@ var handler = require('./requestHandler.js');
 var facebook = require('./facebook.js');
 var passport = require('passport');
 
-var port = process.env.PORT || 3000;
+var port = process.env.PORT || 8000;
 
 var app = express();
 
@@ -42,7 +42,7 @@ app.get('/verifylogin', (req, res) => {
 
 // facebook passport
 app.get('/auth/facebook',
-  passport.authenticate('facebook')
+  passport.authenticate('facebook', { authType: 'reauthenticate', scope:  ['user_friends', 'email'] })
 );
 
 app.get('/auth/facebook/callback',
@@ -65,6 +65,16 @@ app.post('/searchRecipes', handler.searchRecipes);
 app.get('/getAllRecipes', handler.getUserRecipes);
 
 app.post('/getRecipeById', handler.getRecipeById);
+
+// must be access only after signing in
+app.get('/getUserFriends', handler.getUserFriends);
+
+// to find friend's recipe after clicking on friend in friend's list
+app.post('/getFriendRecipes', handler.getFriendRecipes);
+
+app.get('/*', function(req, res) {
+  res.redirect('/');
+});
 
 app.listen(port, function() {
   console.log('listening on port '+ port + '!');

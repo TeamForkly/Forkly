@@ -47,7 +47,8 @@ var userSchema = mongoose.Schema({
   recipes: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Recipe'
-  }]
+  }],
+  friends: []
 });
 
 var User = mongoose.model('User', userSchema);

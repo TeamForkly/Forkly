@@ -1,7 +1,7 @@
 var express = require('express');
 var db = require('../db/index.js');
 var User = db.User;
-var configAuth = require('../react/env/config.js');
+var configAuth = require('../react/env/config');
 
 const passport = require('passport')
   , FacebookStrategy = require('passport-facebook').Strategy;
@@ -10,16 +10,17 @@ const passport = require('passport')
 passport.use(new FacebookStrategy({
     clientID: configAuth.facebookAuth.clientID,
     clientSecret: configAuth.facebookAuth.clientSecret,
-    callbackURL: configAuth.facebookAuth.callbackURL
+    callbackURL: configAuth.facebookAuth.callbackURL,
+    profileFields: ['id', 'displayName', 'email', 'friends']
   },
    function(accessToken, refreshToken, profile, done) {
       // console.log('profile: ', profile);
       // console.log('accessToken', accessToken);
       // console.log('refreshToken', refreshToken);
        //check user table for anyone with a facebook ID of profile.id
-       User.findOne({
+       User.findOneAndUpdate({
            'facebook.id': profile.id
-       }, function(err, user) {
+       }, {'friends': profile._json.friends.data}, function(err, user) {
            if (err) {
                return done(err);
            }
@@ -27,9 +28,9 @@ passport.use(new FacebookStrategy({
            if (!user) {
                user = new User({
                    name: profile.displayName,
-                   // email: profile.emails[0].value,
-                   // username: profile.username,
+                   email: profile.emails[0].value,
                    provider: 'facebook',
+                   friends: profile._json.friends.data,
                    //now in the future searching on User.findOne({'facebook.id': profile.id } will match because of this next line
                    facebook: profile._json
                });
@@ -38,7 +39,7 @@ passport.use(new FacebookStrategy({
                    return done(err, user);
                });
            } else {
-               //found user. Return
+               //found user && updated
                return done(err, user);
            }
        });

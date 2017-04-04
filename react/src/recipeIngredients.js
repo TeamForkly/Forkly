@@ -8,7 +8,7 @@ class RecipeIngredient extends React.Component {
   render() {
   	return (
   	  <li className="searchIngredient">
-        {this.props.ingredient.quantity} {this.props.ingredient.units} {this.props.ingredient.ingredient}
+        {this.props.ingredient.text} {this.props.ingredient.weight}
   	  </li>
   	)
   }
